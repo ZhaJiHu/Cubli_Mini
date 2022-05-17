@@ -1,0 +1,20 @@
+#######################################
+# Syntax Coloring Map ESP32CAN
+#######################################
+
+#######################################
+# Datatypes (KEYWORD1)
+#######################################
+
+ESP32CAN	KEYWORD1
+
+#######################################
+# Methods and Functions (KEYWORD2)
+#######################################
+CANInit    KEYWORD2
+CANWriteFrame KEYWORD2
+CANStop    KEYWORD2
+CANConfigFilter	KEYWORD2
+#######################################
+# Constants (LITERAL1)
+#######################################

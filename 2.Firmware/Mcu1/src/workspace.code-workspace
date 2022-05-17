@@ -1,0 +1,26 @@
+{
+	"folders": [
+		{
+			"name": "cubli",
+			"path": ".."
+		}
+	],
+	"settings": {
+		"files.associations": {
+			"can.h": "c",
+			"stdint.h": "c",
+			"can_config.h": "c",
+			"array": "cpp",
+			"*.tcc": "cpp",
+			"deque": "cpp",
+			"string": "cpp",
+			"unordered_map": "cpp",
+			"vector": "cpp",
+			"string_view": "cpp",
+			"memory": "cpp",
+			"random": "cpp",
+			"initializer_list": "cpp",
+			"unordered_set": "cpp"
+		}
+	}
+}
