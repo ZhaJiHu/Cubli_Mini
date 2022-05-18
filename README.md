@@ -10,7 +10,7 @@
 
 项目成本：≤800RMB
 
-**视频介绍：**
+**视频介绍：**[https://www.bilibili.com/video/BV1UR4y1c74B?spm_id_from=333.999.0.0](https://www.bilibili.com/video/BV1UR4y1c74B?spm_id_from=333.999.0.0)
 
 ### 资料说明
 
