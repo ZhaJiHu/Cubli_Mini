@@ -12,8 +12,6 @@
 
 **视频介绍：**[https://www.bilibili.com/video/BV1UR4y1c74B?spm_id_from=333.999.0.0](https://www.bilibili.com/video/BV1UR4y1c74B?spm_id_from=333.999.0.0)
 
-**Github：**https://github.com/ZhaJiHu/Cubli_Mini
-
 ![Image](https://github.com/ZhaJiHu/Cubli_Mini/blob/master/5.Doc/Pic/Cubli_Mini.JPG)
 
 ### 资料说明
