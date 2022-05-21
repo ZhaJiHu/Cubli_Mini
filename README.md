@@ -16,6 +16,14 @@ YouTube：[https://youtu.be/JwiJBd6I_vY](https://youtu.be/JwiJBd6I_vY)
 
 ![Image](https://github.com/ZhaJiHu/Cubli_Mini/blob/master/5.Doc/Pic/Cubli_Mini.JPG)
 
+### 资料更新说明（2022/5/21）
+
+- /6.Process/钣金件/，增加对应的step文件
+- /6.Process/3D打印/，增加对应的step文件
+- **安全说明**
+  - **动量轮比较危险，要注意安全，手远离动量轮**
+  - /2.Firmware/MCU1/control/cubli_mini.h，修改VOLTAGE_LIMIT的电压可以限制飞轮的最大输出，开始使用建议降低该参数，可以从4，5V开始
+
 ### 资料更新说明（2022/5/19)
 
 - 最新发现动量轮有两个角忘了倒角了，理论上会影响大转速下的动平衡，因此对此进行修改。已经下单打样的同学也可以正常使用，因为电机KV值很低，我现在使用的也是漏倒角的动量轮。更新了/4.Model/Cubli_Mini.STEP文件。并且更新了/6.Process/钣金件/YC.JGJ.000002.4.*，文件版本号更新到.4
