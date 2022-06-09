@@ -16,12 +16,17 @@ YouTube：[https://youtu.be/JwiJBd6I_vY](https://youtu.be/JwiJBd6I_vY)
 
 ![Image](https://github.com/ZhaJiHu/Cubli_Mini/blob/master/5.Doc/Pic/Cubli_Mini.JPG)
 
+### 资料更新说明（2022/6/7）
+
+- **修复**：修复PCB BOM表采购链接的部分链接错误问题，**一共有4处，已经红色标红**。已经下单的同学需要自己校验看元器件是否是正确
+- **增加**：PCB BOM表采购链接里的**贴片按键增加备用链接**
+
 ### 资料更新说明（2022/5/22）
 
 - PCB BOM表添加采购链接
 - 更新<写给小白的白嫖教程.pdf><代码和工程>，图文并茂说明如何解决头文件错误问题
 
-### 资料更新说明（2022/5/21）
+### 资料更新说明（2022/5/21）c23
 
 - /6.Process/钣金件/，增加对应的step文件
 - /6.Process/3D打印/，增加对应的step文件
