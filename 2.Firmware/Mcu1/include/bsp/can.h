@@ -34,6 +34,7 @@ class CanDriver
     void CanSendMotorSpeed(float _set_ch2_speed, float _set_ch3_speed);
     void CanGetMsg(float & _get_ch2_speed, float & _get_ch3_speed);
     CanStatus_e CanIsOnline();
+    void ResetQueue();
     CanStatus_e can_is_online_;
    private:
     uint32_t rx_frame_count_;

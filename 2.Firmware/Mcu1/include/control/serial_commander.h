@@ -6,14 +6,20 @@
 namespace CubliMini {
 namespace Control {
 
+#define AUTO_CALIBRATION_P 1
+#define AUTO_CALIBRATION_U 2
+
 // GET byte1 byte2 data
 #define SCMD_BYTE_1_G      'G' // get cmd
 #define SCMD_BYTE_1_S      'S' // set cmd
+#define SCMD_BYTE_1_C      'C' // cal
+#define SCMD_BYTE_1_F      'F' // re init
+#define SCMD_BYTE_1_R      'R' // set cmd
 
 #define SCMD_BYTE_2_P      'P' // point balance param
 #define SCMD_BYTE_2_U      'U' // unilateral balance param
-#define SCMD_BYTE_2_A      'A' // angle value
 #define SCMD_BYTE_2_S      'S' // save param
+#define SCMD_BYTE_2_W      'W' // get wifi param
 
 #define SCMD_BYTE_3_X     'X' //!< x axis
 #define SCMD_BYTE_3_Y     'Y' //!< y axis
@@ -23,6 +29,7 @@ namespace Control {
 #define SCMD_BYTE_3_V     'V' //!< k2
 #define SCMD_BYTE_3_S     'S' //!< k3
 #define SCMD_BYTE_3_A     'A' //!< angle
+#define SCMD_BYTE_3_E     'E' //!< angle
 
 #define SCMD_BYTE_4_P     'P' //!< k1
 #define SCMD_BYTE_4_V     'V' //!< k2
@@ -42,15 +49,17 @@ class SerialCommander
     }
 
     virtual void cmd_printf(const char* fmt, ...);
-    virtual void Run(Stream &_serial, PBalanceParam_t & _p_parm, AxisParam_t & _u_param);
+    virtual void Run(Stream &_serial, CubliMiniControl & control);
+
     virtual uint16_t GetCharLen(const char *user_cmd);
 
     bool output_angle_;
 
    protected:
-    void GetOrSet(const char *user_cmd, PBalanceParam_t & _p_parm, AxisParam_t & _u_param);
-    void GetCmd(const char *user_cmd, PBalanceParam_t & _p_parm, AxisParam_t & _u_param);
-    void SetCmd(const char *user_cmd, PBalanceParam_t & _p_parm, AxisParam_t & _u_param);
+    void GetOrSet(const char *user_cmd, CubliMiniControl & control);
+
+    void GetCmd(const char *user_cmd, CubliMiniControl & control);
+    void SetCmd(const char *user_cmd, CubliMiniControl & control);
 
     void SetAxisParam(const char *user_cmd, AxisParam_t & _param);
     void SetPParam(const char *user_cmd, PBalanceParam_t & _param);
@@ -59,6 +68,10 @@ class SerialCommander
 
     bool isSentinel(char ch);
 
+    void Calibration(const char *user_cmd, CubliMiniControl & control);
+
+
+    void SaveWifiParam(const char *user_cmd, CubliMiniControl & control);
     int rec_cnt_;
     char received_chars_[MAX_RECEIVER_SIZE];
 };

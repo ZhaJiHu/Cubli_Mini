@@ -41,11 +41,11 @@ void CanDriver::CanGetMsg(float & _get_ch2_speed, float & _get_ch3_speed)
         {
             if(rx_frame.MsgID == eCAN_GET_MOTOR_SPEED_FRAME)
             {
-                _get_ch2_speed = (float)(rx_frame.data.u8[0] | 
+                _get_ch2_speed = -(float)(rx_frame.data.u8[0] | 
                                          rx_frame.data.u8[1] << 8 | 
                                          rx_frame.data.u8[2] << 16 | 
                                          rx_frame.data.u8[3] << 24) / 1000.0f;
-                _get_ch3_speed = (float)(rx_frame.data.u8[4] | 
+                _get_ch3_speed = -(float)(rx_frame.data.u8[4] | 
                                          rx_frame.data.u8[5] << 8 | 
                                          rx_frame.data.u8[6] << 16 | 
                                          rx_frame.data.u8[7] << 24) / 1000.0f;
@@ -55,6 +55,12 @@ void CanDriver::CanGetMsg(float & _get_ch2_speed, float & _get_ch3_speed)
         }
     }
     CanIsOnline();
+}
+
+void CanDriver::ResetQueue()
+{
+    xQueueReset(CAN_cfg.rx_queue);
+    xQueueReset(CAN_cfg.tx_queue);
 }
 
 CanStatus_e CanDriver::CanIsOnline()

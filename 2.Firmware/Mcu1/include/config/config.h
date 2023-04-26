@@ -4,18 +4,34 @@
 namespace CubliMini {
 namespace Config {  
 
-#define USER_WIFI 1
-#define USER_SERIAL 1
-#define FIRST_DOWNLOAD_CODE 0
-#define LOW_POWER_VOLTAGE_THRESHOLD 9.5
-#define IMU_INIT_GYRO_THRESHOLD 4
-#define IMU_STATIC_GYRO_THRESHOLD 5
+#define USER_SERIAL                 1
+#define LOW_POWER_VOLTAGE_THRESHOLD 8
+#define IMU_INIT_GYRO_THRESHOLD     10
+#define IMU_STATIC_GYRO_THRESHOLD   8
 
-#define WIFI_SSID "ChinaNet-RFPPQ9"
-#define WIFI_PASSWORD "12345678"
+#define WIFI_DEFAULT_SSID            "TeLunSu"
+#define WIFI_DEFAULT_PASSWORD         "12345678"
+#define WIFI_DEFAULT_TCP_SERVER_PORT 1312
 
-#define WIFI_TCP_SERVER_IP "192.168.2.14"
-#define WIFI_TCP_SERVER_PORT 1312
+#define P_BALANCE_X_P   -8
+#define P_BALANCE_X_V   0.5f
+#define P_BALANCE_X_S   0.12f
+#define P_BALANCE_X_A   0.5f
+
+#define P_BALANCE_Y_P   8
+#define P_BALANCE_Y_V   0.6f
+#define P_BALANCE_Y_S   0.12f
+#define P_BALANCE_Y_A   1.5f
+
+#define P_BALANCE_Z_P   0
+#define P_BALANCE_Z_V   -0.3f
+#define P_BALANCE_Z_S   0.025f
+#define P_BALANCE_Z_A   0
+
+#define U_BALANCE_CH2_P -10
+#define U_BALANCE_CH2_V 0.55f
+#define U_BALANCE_CH2_S 0.25f
+#define U_BALANCE_CH2_A 1.21f
 
 #define MOTOR_PP 7
 

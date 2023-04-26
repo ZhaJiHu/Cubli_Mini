@@ -43,6 +43,11 @@ class Time
             return millis();
         }
 
+        void ResetWaitMs()
+        {
+            update_first_time_ = true;
+        }
+
         bool WaitMs(float _ms)
         {
             if(update_first_time_)

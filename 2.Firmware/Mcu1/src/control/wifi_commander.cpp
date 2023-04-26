@@ -4,14 +4,28 @@
 namespace CubliMini {
 namespace Control {
 
+void WifiCommander::SetOption(const WifiParam_t & param)
+{
+    server_port_ = param.server_port;
+    ssid_ = String(param.wifi_ssid, param.wifi_ssid_len);
+    password_ = String(param.wifi_password, param.wifi_password_len);
+
+    printf("SetOption ssid: %s password: %s port: %d\r\n",
+        ssid_.c_str(),
+        password_.c_str(),
+        server_port_);
+}
+
 WifiConnectStatus_e WifiCommander::ConnectWifi()
 {
     WiFi.begin(ssid_.c_str(), password_.c_str());
-    while (WiFi.status() != WL_CONNECTED) //等待网络连接成功
+    Time time_out_;
+    while (WiFi.status() != WL_CONNECTED)
     {
         delay(500);
         printf("WIFI: connecting...\r\n");
-        if(time_out_.WaitMs(1000 * 10)) // 20s连接失败则退出连接
+        // 20s连接失败则退出连接
+        if(time_out_.WaitMs(1000 * 10))
         {
             printf("WIFI: connected fail!\r\n");
             esp_wifi_disconnect();
@@ -21,61 +35,61 @@ WifiConnectStatus_e WifiCommander::ConnectWifi()
         }
     }
     wifi_connect_status_ = WifiConnectStatus_e::eWIFI_SUCCESS;
-    printf("WIFI: connected, cubli ip address: %s\r\n", WiFi.localIP().toString()); //打印模块IP
+
+    // 打印模块IP
+    printf("WIFI: connected, cubli server ip address: %s port: %d\r\n", 
+        WiFi.localIP().toString(), 
+        server_port_);
 
     return wifi_connect_status_;
 }
 
-
-void WifiCommander::LinkMutex(SemaphoreHandle_t * _x_mutex)
+void WifiCommander::WaitClientConnect()
 {
-    x_mutex_ = _x_mutex;
-}
-
-void WifiCommander::TcpTask(PBalanceParam_t & _p_parm, AxisParam_t & _u_parm)
-{
-    if(wifi_connect_status_ == WifiConnectStatus_e::eWIFI_SUCCESS)
+    if(WiFi.status() != WL_CONNECTED)
     {
-        TcpClient(_p_parm, _u_parm);
+        server_.stop();
+        return;
     }
     else
     {
-        printf("WIFI: connected fail!");
+        server_.begin(server_port_);
     }
-}
 
-void WifiCommander::TcpClient(PBalanceParam_t & _p_parm, AxisParam_t & _u_parm)
-{
-    printf("WIFI: try connect server!!\r\n");
-    if (client_.connect(server_ip_, server_port_)) //尝试访问目标地址
+    client_ = server_.available();
+    printf("Waiting for tcp client connection ...\r\n");
+    while (!client_) 
     {
-        printf("WIFI: successfully connected tcp server! \r\n");
-        client_.printf("successfully connected!\r\n"); //向服务器发送数据
-        client_.printf("this is Cubli_Mini!\r\n"); //向服务器发送数据
-        while (client_.connected() || client_.available()) //如果已连接或有收到的未读取的数据
+        delay(1000);
+        client_ = server_.available();
+        if(client_)
         {
-            if (client_.available()) //如果有数据可读取
-            {
-                String line = client_.readStringUntil('\n'); //读取数据到换行符
-                xSemaphoreTake(*x_mutex_, portMAX_DELAY);
-                GetOrSet(line.c_str(), _p_parm, _u_parm);
-                xSemaphoreGive(*x_mutex_);
-            }
-
-            if(this->output_angle_ && time_out_.WaitMs(100) == true)
-            {
-                cmd_printf("x_A:%f y_A:%f z_A:%f\r\n", sensor_angle_.x, sensor_angle_.y, sensor_angle_.z);
-            }
-            delay(20);
+            printf("client connect, remote IP(): %s\r\n", client_.remoteIP().toString().c_str());
         }
-        printf("WIFI: close this connect\r\n");
-        client_.stop(); //关闭客户端
     }
-    else
+}
+
+void WifiCommander::TcpClientUnpack(CubliMiniControl & control)
+{
+    if(WiFi.status() != WL_CONNECTED)
     {
-        printf("WIFI: connect server fail!!\r\n");
-        client_.stop(); //关闭客户端
+        delay(500);
+        return;
     }
+
+    cmd_printf("this is cubli_mini, enjoy !!!!\r\n");
+    while (client_.connected()) 
+    {
+        if(client_.available())
+        {
+            // ;结束符
+            String line = client_.readStringUntil(';');
+            GetOrSet(line.c_str(), control);
+        }
+        delay(50);
+    }
+    client_.stop();
+    printf("tcp client close this connect\r\n");
 }
 
 void WifiCommander::cmd_printf(const char *format, ...)
