@@ -4,6 +4,10 @@
 
 - 本分支内容针对**2804**电机进行更新，2715电机不再适用
 
+### 外观
+
+![Image](https://github.com/ZhaJiHu/Cubli_Mini/blob/2804/5.Doc/Pic/cubli_mini-2804.jpg)
+
 ### 改动说明
 
 1. 电机修改成2804电机
