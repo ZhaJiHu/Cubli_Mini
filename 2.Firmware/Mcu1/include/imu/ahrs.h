@@ -1,15 +1,16 @@
 #pragma once
 
 #include <Arduino.h>
-#include "imu/mpu6050_driver.h"
+
 #include "comm/time.h"
+#include "imu/mpu6050_driver.h"
 
 using namespace CubliMini::ImuDriver;
 namespace CubliMini {
-namespace Imu {  
+namespace Imu {
 
-#define Kp 5.0f  // proportional gain governs rate of convergence to accelerometer/magnetometer
-#define Ki 0.01f // integral gain governs rate of convergence of gyroscope biases
+#define Kp 5.0f   // proportional gain governs rate of convergence to accelerometer/magnetometer
+#define Ki 0.01f  // integral gain governs rate of convergence of gyroscope biases
 
 struct Q_t
 {
@@ -21,7 +22,7 @@ struct Q_t
 
 class AHRS
 {
-public:
+   public:
     AHRS()
     {
         q_.q0 = 1.0f;
@@ -36,7 +37,7 @@ public:
     bool ImuUpdate();
     void ImuIsStatic();
 
-public:
+   public:
     ImuData_t imu_data_;
     ImuRawData_t imu_raw_data_;
     Mpu6050Driver mpu6050_driver;
@@ -46,12 +47,12 @@ public:
     float ki_;
     bool is_static_;
 
-private:
+   private:
     float invSqrt(float x);
     float GetTimeUs();
-    void ImuAHRSUpdate(Q_t &_q,  const ImuData_t &_imu_data);
+    void ImuAHRSUpdate(Q_t &_q, const ImuData_t &_imu_data);
     void ConvertToEulerAmgleByQ(EulerAngle_t &_angle, const Q_t &_q);
-} ;
+};
 
-} // namespace Cubli 
-} // namespace Imu 
+}  // namespace Imu
+}  // namespace CubliMini

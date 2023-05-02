@@ -1,9 +1,10 @@
 #pragma once
 #include <Arduino.h>
-#include "imu/ahrs.h"
+
 #include "bsp/bsp_driver.h"
-#include "control/param.h"
 #include "comm/time.h"
+#include "control/param.h"
+#include "imu/ahrs.h"
 
 using namespace CubliMini::Imu;
 using namespace CubliMini::Comm;
@@ -13,36 +14,36 @@ namespace CubliMini {
 namespace Control {
 
 #define STATIC_ANGLE_PROTECTION_THRESHOLD 5
-#define BALABCE_PROTECTION_THRESHOLD 15
+#define BALABCE_PROTECTION_THRESHOLD      15
 // 电池输出有限，限制电机电压，降低功率
 #define VOLTAGE_LIMIT 5
 
 // 转速为5，经验值，旋转比较缓慢
-#define AUTO_CALIBRATION_SPEED_THRESHOLD  5
+#define AUTO_CALIBRATION_SPEED_THRESHOLD 5
 
 #define AUTO_CALIBRATION_STATIC_THRESHOLD 5
 #define AUTO_CALIBRATION_ANGLE_SCALE      0.1
 
-#define AUTO_P_CALIBRATION_X_TIMEOUT    (1000*10)  // 10s
-#define AUTO_P_CALIBRATION_Y_TIMEOUT    (1000*10)  // 10s
-#define AUTO_P_CALIBRATION_PERIOD       400        // 350ms
-#define AUTO_P_CALIBRATION_WAIT_STATIC  5000       // 5s
+#define AUTO_P_CALIBRATION_X_TIMEOUT   (1000 * 10)  // 10s
+#define AUTO_P_CALIBRATION_Y_TIMEOUT   (1000 * 10)  // 10s
+#define AUTO_P_CALIBRATION_PERIOD      400          // 350ms
+#define AUTO_P_CALIBRATION_WAIT_STATIC 5000         // 5s
 
-#define AUTO_U_CALIBRATION_PERIOD       400        // 350ms
-#define AUTO_U_CALIBRATION_WAIT_STATIC  5000       // 5s
+#define AUTO_U_CALIBRATION_PERIOD      400   // 350ms
+#define AUTO_U_CALIBRATION_WAIT_STATIC 5000  // 5s
 
 enum MotorIintResult_e
 {
     eSUCCESS = 0x01,
-    eFail = 0x00
+    eFail    = 0x00
 };
 
 enum DeviceHealt_e
 {
-    eDEVICE_ONLINE = 0x03,
+    eDEVICE_ONLINE         = 0x03,
     eDEVICE_MOTOR1_OFFLINE = 0x02,
-    eDEVICE_CAN_OFFLINE = 0x01,
-    eDEVICE_ALL_OFFLINE = 0x00
+    eDEVICE_CAN_OFFLINE    = 0x01,
+    eDEVICE_ALL_OFFLINE    = 0x00
 };
 
 struct MotorInitStatus_t
@@ -68,15 +69,15 @@ struct MotorSetSpeed_t
 
 enum ControlMode_e
 {
-    eNORMAL = 0x00,
-    ePOINT_BALANCE = 0x01,
-    ePOINT_CALIBRATION = 0x03,
-    ePOINT_CALIBRATIONING = 0x06,
-    eUNILATERA_BALANCE = 0x02,
-    eUNILATERA_CALIBRATION = 0x04,
+    eNORMAL                   = 0x00,
+    ePOINT_BALANCE            = 0x01,
+    ePOINT_CALIBRATION        = 0x03,
+    ePOINT_CALIBRATIONING     = 0x06,
+    eUNILATERA_BALANCE        = 0x02,
+    eUNILATERA_CALIBRATION    = 0x04,
     eUNILATERA_CALIBRATIONING = 0x07,
-    eMOTOR_TEST = 0x05
-} ;
+    eMOTOR_TEST               = 0x05
+};
 
 enum CalibrationMode_e
 {
@@ -99,10 +100,10 @@ class CubliMiniControl
     void WifiWriteDefaultParam();
 
     void Autorotation();
-  
+
    public:
     float z_speed_;
-    
+
     BspDriver bsp_driver_;
     MotorSetSpeed_t motor_set_speed_;
     MotorGetSpeed_t motor_get_speed_;
@@ -128,19 +129,15 @@ class CubliMiniControl
     void PBalance();
     void MotorStop();
     float Limit(float _data, float _limit);
-    void GetAxisMoveSpeed( const MotorGetSpeed_t & _get_speed, 
-                            float &_x_speed, 
-                            float &_y_speed, 
-                            float &_z_speed);
+    void GetAxisMoveSpeed(
+        const MotorGetSpeed_t &_get_speed, float &_x_speed, float &_y_speed, float &_z_speed);
 
-    void GetMotorMoveSpeed(   float _x_speed, 
-                              float _y_speed, 
-                              float _z_speed, 
-                              MotorSetSpeed_t & _set_speed);
+    void GetMotorMoveSpeed(
+        float _x_speed, float _y_speed, float _z_speed, MotorSetSpeed_t &_set_speed);
 
-    void PBalanceCalibrationAngle_X(CalibrationMode_e & mode);
-    void PBalanceCalibrationAngle_Y(CalibrationMode_e & mode);
-    void UBalanceCalibrationAngle_X(CalibrationMode_e & mode);
+    void PBalanceCalibrationAngle_X(CalibrationMode_e &mode);
+    void PBalanceCalibrationAngle_Y(CalibrationMode_e &mode);
+    void UBalanceCalibrationAngle_X(CalibrationMode_e &mode);
 
    private:
     float protection_threshold_;
@@ -171,7 +168,6 @@ class CubliMiniControl
     bool start_ubalance_calibration_;
     Time wait_u_calibration_;
 };
-  
 
-} // namespace Cubli 
-} // namespace Control 
+}  // namespace Control
+}  // namespace CubliMini

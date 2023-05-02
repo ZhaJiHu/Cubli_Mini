@@ -1,13 +1,14 @@
 #include <Arduino.h>
 #include <SimpleFOC.h>
-#include "imu/ahrs.h"
+#include <esp_wifi.h>
+
 #include "bsp/bsp_driver.h"
 #include "bsp/can.h"
-#include "control/serial_commander.h"
 #include "control/cubli_mini.h"
-#include "control/wifi_commander.h"
 #include "control/param.h"
-#include <esp_wifi.h>
+#include "control/serial_commander.h"
+#include "control/wifi_commander.h"
+#include "imu/ahrs.h"
 
 using namespace CubliMini::Imu;
 using namespace CubliMini::ImuDriver;
@@ -22,10 +23,11 @@ MagneticSensorI2C sensor1 = MagneticSensorI2C(AS5600_I2C);
 // BLDC motor & driver instance
 BLDCMotor motor1 = BLDCMotor(MOTOR_PP);
 // motor1
-BLDCDriver3PWM driver1 = BLDCDriver3PWM(MOTOR_1_PWM1_PIN, MOTOR_1_PWM2_PIN, MOTOR_1_PWM3_PIN, MOTOR_1_EN_PIN);
+BLDCDriver3PWM driver1 =
+    BLDCDriver3PWM(MOTOR_1_PWM1_PIN, MOTOR_1_PWM2_PIN, MOTOR_1_PWM3_PIN, MOTOR_1_EN_PIN);
 // i2c
 TwoWire motor1_i2c = TwoWire(0);
-TwoWire imu_i2c = TwoWire(1);
+TwoWire imu_i2c    = TwoWire(1);
 
 SemaphoreHandle_t x_mutex;
 
@@ -43,18 +45,19 @@ void setup()
     cubli_mini.LinkSensor(&ahrs);
     cubli_mini.Init();
     SimpleFocInit();
-    
+
     // core 1
     xTaskCreatePinnedToCore(SensorUpdateTask, "ImulTask", 5000, NULL, 5, NULL, 1);
 
-    if(cubli_mini.wifi_param_.use_wifi)
+    if (cubli_mini.wifi_param_.use_wifi)
     {
         wifi_commander.SetOption(cubli_mini.wifi_param_);
         wifi_commander.ConnectWifi();
-        if(wifi_commander.GetConnectStatus() == WifiConnectStatus_e::eWIFI_SUCCESS)
+        if (wifi_commander.GetConnectStatus() == WifiConnectStatus_e::eWIFI_SUCCESS)
         {
             // core 0
-            xTaskCreatePinnedToCore(WifiCommanderTask, "WifiCommanderTask", 30000, NULL, 7, NULL, 0);
+            xTaskCreatePinnedToCore(
+                WifiCommanderTask, "WifiCommanderTask", 30000, NULL, 7, NULL, 0);
         }
     }
 
@@ -73,7 +76,7 @@ void SimpleFocInit()
     driver1.voltage_power_supply = 12;
     driver1.init();
     motor1.linkDriver(&driver1);
-    motor1.controller = MotionControlType::torque;
+    motor1.controller    = MotionControlType::torque;
     motor1.voltage_limit = 12;
     motor1.useMonitoring(Serial);
     motor1.monitor_downsample = 0;
@@ -85,9 +88,9 @@ void SimpleFocInit()
 // core 1
 void loop()
 {
-  motor1.loopFOC();
-  motor1.move(cubli_mini.motor_set_speed_.ch1);
-  cubli_mini.motor_get_speed_.ch1 = -motor1.shaft_velocity;
+    motor1.loopFOC();
+    motor1.move(cubli_mini.motor_set_speed_.ch1);
+    cubli_mini.motor_get_speed_.ch1 = -motor1.shaft_velocity;
 }
 
 float angle_z = 0;
@@ -95,7 +98,7 @@ float angle_z = 0;
 void ModeTask(void *parameter)
 {
     Time time;
-    for(;;)
+    for (;;)
     {
         cubli_mini.ModeControl();
         serial_commander.Run(Serial, cubli_mini);
@@ -106,14 +109,14 @@ void ModeTask(void *parameter)
             cubli_mini.p_balance_.sensor.x.angle,
             cubli_mini.p_balance_.sensor.y.angle,
             cubli_mini.p_balance_.sensor.z.angle);
-        delay(50);
 #endif
+        delay(50);
     }
 }
 
 void WifiCommanderTask(void *parameter)
 {
-    for(;;)
+    for (;;)
     {
         wifi_commander.WaitClientConnect();
         wifi_commander.TcpClientUnpack(cubli_mini);
@@ -122,14 +125,14 @@ void WifiCommanderTask(void *parameter)
 
 void SensorUpdateTask(void *parameter)
 {
-    uint64_t count = 0;
+    uint64_t count         = 0;
     static float last_gyro = 0;
-    for(;;)
+    for (;;)
     {
-        count ++;
+        count++;
         cubli_mini.SensorUpdate();
 
-        if(count % 2 == 0)
+        if (count % 2 == 0)
         {
             cubli_mini.Control();
         }

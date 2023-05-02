@@ -1,0 +1,114 @@
+# https://releases.llvm.org/10.0.0/tools/clang/docs/ClangFormatStyleOptions.html
+# 基于 Google C++ 风格的配置。
+BasedOnStyle: Google
+# 使用 C++ 语言。
+Language: Cpp
+# 每个缩进级别使用4个空格进行缩进
+IndentWidth: 4
+# 将访问修饰符（public、protected、private）的缩进级别设置为比普通代码缩进级别少1
+AccessModifierOffset: -1
+# 将连续的赋值语句右对齐
+AlignConsecutiveAssignments: true
+# 将连续的宏定义右对齐
+AlignConsecutiveMacros: true
+# 将反斜杠换行符对齐到行末
+AlignEscapedNewlines: Right
+# 限制每行的代码字数为 100。
+ColumnLimit: 100
+# 函数是可以在单独的一行上完成定义
+AllowShortFunctionsOnASingleLine: true
+# 构造函数初始化列表不全部在一行
+ConstructorInitializerAllOnOneLineOrOnePerLine: true
+# 将构造函数初始化列表拆分到冒号之前
+BreakConstructorInitializers: BeforeColon
+# 自定义花括号的换行规则
+BreakBeforeBraces: Custom
+# BreakBeforeBraces: Allman
+BraceWrapping:
+    # 枚举后的花括号换行
+    AfterEnum: true
+    # 控制语句（如 if、for、while）后的花括号换行
+    AfterControlStatement: true
+    # union 后的花括号换行
+    AfterUnion: true
+    # 结构体后的花括号换行
+    AfterStruct: true
+    # 类后的花括号换行
+    AfterClass: true
+    # 函数后的花括号换行
+    AfterFunction: true
+    # 命名空间后的花括号不换行
+    AfterNamespace: false
+    # extern extern "C" 后的花括号不换行
+    AfterExternBlock: false
+    # 空函数体不拆分
+    SplitEmptyFunction: false
+    # 空命名空间不拆分
+    SplitEmptyNamespace: false
+    # catch 前的花括号换行
+    BeforeCatch: true
+    # else 前的花括号换行
+    BeforeElse: true
+    # 空结构体不拆分
+    SplitEmptyRecord: false
+    # case之后花括号换行
+    AfterCaseLabel: true
+
+# switch case 不缩进
+IndentCaseLabels: false
+# 三元运算符换行
+BreakBeforeTernaryOperators: true
+# 不压缩命名空间
+CompactNamespaces: false
+# 修复命名空间注释
+FixNamespaceComments: true
+# 不在块的开头保留空行
+KeepEmptyLinesAtTheStartOfBlocks: false
+# 最多保留 1 个空行
+MaxEmptyLinesToKeep: 1
+# 强制类型转换后不添加空格
+SpaceAfterCStyleCast: false
+# 逻辑非操作符后不添加空格
+SpaceAfterLogicalNot: false
+# 模板关键字后不添加空格
+SpaceAfterTemplateKeyword: false
+# 赋值操作符前添加空格
+SpaceBeforeAssignmentOperators: true
+# C++11风格的初始化列表前添加空格
+SpaceBeforeCpp11BracedList: true
+# 构造函数初始化列表中冒号前添加空格
+SpaceBeforeCtorInitializerColon: true
+# 继承列表中冒号前添加空格
+SpaceBeforeInheritanceColon: true
+# 控制语句（如if、while等）后的括号前添加空格
+SpaceBeforeParens: ControlStatements
+# 基于范围的for循环中冒号前添加空格
+SpaceBeforeRangeBasedForLoopColon: true
+# 数组下标操作符前不添加空格
+SpaceBeforeSquareBrackets: false
+# 空代码块中不添加空格
+SpaceInEmptyBlock: false
+# 空括号中不添加空格
+SpaceInEmptyParentheses: false
+# 尖括号中不添加空格
+SpacesInAngles: false
+# C风格的强制类型转换中括号中不添加空格
+SpacesInCStyleCastParentheses: false
+# 容器初始化列表中不添加空格
+SpacesInContainerLiterals: false
+# 圆括号中不添加空格
+SpacesInParentheses: false
+# 不根据周围的代码推导指针对齐方式
+DerivePointerAlignment: false
+# 设置指针对齐方式为右对齐
+PointerAlignment: Right
+# 函数参数不进行紧凑排列
+BinPackArguments: false
+# 函数参数不进行紧凑排列
+BinPackParameters: false
+# 括号后的换行始终保持对齐
+AlignAfterOpenBracket: AlwaysBreak
+# 数组结构左对齐
+AlignArrayOfStructures: Left
+# 短 if 语句不能写在单行
+AllowShortIfStatementsOnASingleLine: Never

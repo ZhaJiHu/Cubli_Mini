@@ -1,13 +1,14 @@
 #pragma once
 #include <Arduino.h>
-#include <ESP32CAN.h>
 #include <CAN_config.h>
+#include <ESP32CAN.h>
+
 #include "config/config.h"
 
 namespace CubliMini {
-namespace Bsp {  
+namespace Bsp {
 
-#define CAN_OFFLINE_COUNT 500 // 500次,0.5s
+#define CAN_OFFLINE_COUNT 500  // 500次,0.5s
 
 enum CanFrameId
 {
@@ -18,7 +19,7 @@ enum CanFrameId
 
 enum CanStatus_e
 {
-    eON_LINE = 0x01,
+    eON_LINE  = 0x01,
     eOFF_LINE = 0x00,
 };
 
@@ -27,18 +28,19 @@ class CanDriver
    public:
     CanDriver()
     {
-        can_is_online_ = eOFF_LINE;
+        can_is_online_  = eOFF_LINE;
         rx_frame_count_ = 0;
     }
     void Init(int _can_txd_pin, int _can_rxd_pin, CAN_speed_t _can_speed);
     void CanSendMotorSpeed(float _set_ch2_speed, float _set_ch3_speed);
-    void CanGetMsg(float & _get_ch2_speed, float & _get_ch3_speed);
+    void CanGetMsg(float &_get_ch2_speed, float &_get_ch3_speed);
     CanStatus_e CanIsOnline();
     void ResetQueue();
     CanStatus_e can_is_online_;
+
    private:
     uint32_t rx_frame_count_;
 };
 
-} // namespace Cubli 
-} // namespace Bsp 
+}  // namespace Bsp
+}  // namespace CubliMini
