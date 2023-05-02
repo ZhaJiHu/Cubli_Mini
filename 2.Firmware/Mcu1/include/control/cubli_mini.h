@@ -99,8 +99,6 @@ class CubliMiniControl
     void FirstDownloadFlash();
     void WifiWriteDefaultParam();
 
-    void Autorotation();
-
    public:
     float z_speed_;
 

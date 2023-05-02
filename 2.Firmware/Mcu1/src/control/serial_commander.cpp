@@ -141,6 +141,11 @@ void SerialCommander::GetCmd(const char *user_cmd, CubliMiniControl &control)
             control.wifi_param_.wifi_password_len);
     }
     break;
+    case SCMD_BYTE_2_A:
+    {
+        output_angle_ = true;
+    }
+    break;
     default:
         cmd_printf("byte2 error\r\n");
         break;

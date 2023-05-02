@@ -40,6 +40,8 @@ class WifiCommander : public SerialCommander
 
     void TcpClientUnpack(CubliMiniControl &control);
 
+    bool TcpClientStatus();
+
     SensorAngle_t sensor_angle_;
 
    private:

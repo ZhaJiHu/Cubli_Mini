@@ -93,8 +93,6 @@ void loop()
     cubli_mini.motor_get_speed_.ch1 = -motor1.shaft_velocity;
 }
 
-float angle_z = 0;
-
 void ModeTask(void *parameter)
 {
     Time time;
@@ -104,12 +102,25 @@ void ModeTask(void *parameter)
         serial_commander.Run(Serial, cubli_mini);
         cubli_mini.PBalanceAutoCalibration();
         cubli_mini.UBalanceAutoCalibration();
-#if 0
-        printf("%0.2f %0.2f %0.2f\r\n", 
-            cubli_mini.p_balance_.sensor.x.angle,
-            cubli_mini.p_balance_.sensor.y.angle,
-            cubli_mini.p_balance_.sensor.z.angle);
-#endif
+
+        if (serial_commander.output_angle_)
+        {
+            printf(
+                "x: %0.2f y: %0.2f z: %0.2f\r\n",
+                cubli_mini.p_balance_.sensor.x.angle,
+                cubli_mini.p_balance_.sensor.y.angle,
+                cubli_mini.p_balance_.sensor.z.angle);
+        }
+
+        if (wifi_commander.output_angle_ && wifi_commander.TcpClientStatus() &&
+            cubli_mini.wifi_param_.use_wifi)
+        {
+            wifi_commander.cmd_printf(
+                "x: %0.2f y: %0.2f z: %0.2f\r\n",
+                cubli_mini.p_balance_.sensor.x.angle,
+                cubli_mini.p_balance_.sensor.y.angle,
+                cubli_mini.p_balance_.sensor.z.angle);
+        }
         delay(50);
     }
 }
@@ -125,8 +136,7 @@ void WifiCommanderTask(void *parameter)
 
 void SensorUpdateTask(void *parameter)
 {
-    uint64_t count         = 0;
-    static float last_gyro = 0;
+    uint64_t count = 0;
     for (;;)
     {
         count++;

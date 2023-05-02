@@ -116,7 +116,7 @@ void CubliMiniControl::PBalance()
     if (ahrs_->is_static_)
     {
         cube_is_upside_dowm_ = false;
-        // p_balance_.param.z.angle_offset = p_balance_.sensor.z.angle;
+        p_balance_.param.z.angle_offset = p_balance_.sensor.z.angle;
     }
 
     if (fabs(p_balance_.sensor.x.angle - p_balance_.param.x.angle_offset) < protection_threshold_ &&
@@ -177,52 +177,6 @@ void CubliMiniControl::PBalanceCalibrationAngle_X(CalibrationMode_e &mode)
         printf("PBalance: X-axis calibration completed\r\n");
     }
 }
-
-#define SAMPLE_TIME     0.01                          // 采样时间，单位为秒
-#define ANGLE_LIMIT     10.0                          // 角度限幅，单位为度
-#define ANGLE_LIMIT_RAD (ANGLE_LIMIT * M_PI / 180.0)  // 角度限幅，单位为弧度
-#define INTEGRAL_LIMIT  0.01                          // 积分限幅，单位为弧度
-
-double integrate(double omega, double *angle, double *error, double *integral)
-{
-    // 计算误差
-    double e = *error - *angle;
-
-    // 积分计算
-    *integral += e * SAMPLE_TIME;
-
-    // 积分限幅处理
-    if (*integral > INTEGRAL_LIMIT)
-    {
-        *integral = INTEGRAL_LIMIT;
-    }
-    else if (*integral < -INTEGRAL_LIMIT)
-    {
-        *integral = -INTEGRAL_LIMIT;
-    }
-
-    // 角度积分计算
-    double angle_increment = (*integral + e) * SAMPLE_TIME;
-    *angle += angle_increment;
-
-    // 角度限幅处理
-    if (*angle > ANGLE_LIMIT_RAD)
-    {
-        *angle = ANGLE_LIMIT_RAD;
-    }
-    else if (*angle < -ANGLE_LIMIT_RAD)
-    {
-        *angle = -ANGLE_LIMIT_RAD;
-    }
-
-    // 更新误差值
-    *error = *angle;
-
-    // 返回当前角度值（单位：弧度）
-    return *angle;
-}
-
-void CubliMiniControl::Autorotation() {}
 
 void CubliMiniControl::PBalanceCalibrationAngle_Y(CalibrationMode_e &mode)
 {
@@ -632,8 +586,7 @@ void CubliMiniControl::SensorUpdate()
         p_balance_.sensor.y.angle = ahrs_->imu_data_.angle.roll;
         p_balance_.sensor.y.gyro  = ahrs_->imu_data_.gyro.gx;
 
-        // p_balance_.sensor.z.angle = ahrs_->imu_data_.angle.yaw;
-        // p_balance_.sensor.z.angle = 0;
+        p_balance_.sensor.z.angle = ahrs_->imu_data_.angle.yaw;
         p_balance_.sensor.z.gyro = ahrs_->imu_data_.gyro.gz;
 
         u_ch2_balance_.sensor.angle = ahrs_->imu_data_.angle.pitch / cos(35.3f / 57.3f);

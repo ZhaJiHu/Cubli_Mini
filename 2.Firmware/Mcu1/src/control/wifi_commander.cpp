@@ -72,6 +72,11 @@ void WifiCommander::WaitClientConnect()
     }
 }
 
+bool WifiCommander::TcpClientStatus()
+{
+    return client_.connected();
+}
+
 void WifiCommander::TcpClientUnpack(CubliMiniControl &control)
 {
     if (WiFi.status() != WL_CONNECTED)

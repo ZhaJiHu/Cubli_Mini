@@ -10,13 +10,13 @@ namespace Control {
 #define AUTO_CALIBRATION_P 1
 #define AUTO_CALIBRATION_U 2
 
-// GET byte1 byte2 data
 #define SCMD_BYTE_1_G 'G'  // get cmd
 #define SCMD_BYTE_1_S 'S'  // set cmd
 #define SCMD_BYTE_1_C 'C'  // cal
 #define SCMD_BYTE_1_F 'F'  // re init
 #define SCMD_BYTE_1_R 'R'  // set cmd
 
+#define SCMD_BYTE_2_A 'A'  // get imu angle
 #define SCMD_BYTE_2_P 'P'  // point balance param
 #define SCMD_BYTE_2_U 'U'  // unilateral balance param
 #define SCMD_BYTE_2_S 'S'  // save param
