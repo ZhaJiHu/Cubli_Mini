@@ -4,7 +4,7 @@
 namespace Cubli {
 namespace Config {
 
-#define MOTOR_2_PP 6
+#define MOTOR_2_PP 7
 
 #define MOTOR_2_PWM1_PIN (int)25
 #define MOTOR_2_PWM2_PIN (int)26
@@ -14,7 +14,7 @@ namespace Config {
 #define MOTOR_2_SENSOR_I2C_SDA_PIN (int)4
 #define MOTOR_2_SENSOR_I2C_SCL_PIN (int)14
 
-#define MOTOR_3_PP 6
+#define MOTOR_3_PP 7
 
 #define MOTOR_3_PWM1_PIN (int)22
 #define MOTOR_3_PWM2_PIN (int)19
