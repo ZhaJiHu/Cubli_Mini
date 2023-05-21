@@ -41,7 +41,7 @@ WifiConnectStatus_e WifiCommander::ConnectWifi()
     // 打印模块IP
     printf(
         "WIFI: connected, cubli server ip address: %s port: %d\r\n",
-        WiFi.localIP().toString(),
+        WiFi.localIP().toString().c_str(),
         server_port_);
 
     return wifi_connect_status_;
